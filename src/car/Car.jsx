@@ -5,7 +5,7 @@ import CarElement from "./CarElement";
 import useSelectCarItemsProduct from "./carLogic/selectSpecificCarItems";
 import useSelectCarItems from "./carLogic/selectCartItems";
 import useSelectCarId from "./carLogic/selectUserCar";
-import useErraseCartItem from "./carLogic/erraseCarItem.JSX";
+import useErraseCartItem from "./carLogic/erraseCarItem";
 import useSumAmount from "./carLogic/sumAmount";
 import useRestAmount from "./carLogic/restAmount";
 import usePurchase from "./carLogic/purchase";
