@@ -1,0 +1,91 @@
+.auth_page {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f2f2;
+}
+
+.auth_card {
+  background-color: #ffffff;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth_card h2 {
+  text-align: center;
+  color: #222;
+  margin-bottom: 5px;
+  font-weight: 700;
+}
+
+/* Estilo para los labels de los inputs */
+.auth_card label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: -10px; /* Acerca el label al input */
+  margin-left: 5px;
+}
+
+.auth_card input {
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none; /* Quitamos el borde por defecto */
+  background-color: #f8f9fa; /* Fondo gris muy suave */
+  transition: all 0.2s ease;
+}
+
+.auth_card input:focus {
+  outline: none;
+  background-color: #fff;
+  box-shadow: 0 0 0 2px #0d6efd; /* Un anillo sutil en lugar de borde grueso */
+}
+
+/* Estilo para el mensaje de error interno */
+.auth_error {
+  background-color: #ffeef0;
+  color: #d93025;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  text-align: center;
+  border: 1px solid #fad2cf;
+}
+
+.auth_card button {
+  margin-top: 10px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  background-color: #0d6efd;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.auth_card button:hover {
+  background-color: #0b5ed7;
+}
+
+.auth_link {
+  text-align: center;
+  font-size: 14px;
+  color: #444;
+  margin-top: 5px;
+}
+
+.auth_link a {
+  color: #0d6efd;
+  text-decoration: none;
+  font-weight: 600;
+}

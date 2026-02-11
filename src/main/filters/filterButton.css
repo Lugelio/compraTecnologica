@@ -1,0 +1,9 @@
+.filter_button{
+    border-radius: 15px;
+}
+.filter_button_container{
+    margin-top:15px ;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}

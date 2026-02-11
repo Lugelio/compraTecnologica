@@ -1,0 +1,90 @@
+.car-card_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* IMAGEN */
+.card-img_container {
+    flex: 0 0 90px;
+}
+
+.card-img_container img {
+    width: 80px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* CUERPO CENTRAL */
+.card_body {
+    flex: 1;
+    padding: 0 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* TEXTO / DESCRIPCIÓN */
+.card_body-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: #222;
+    line-height: 1.4;
+    max-width: 520px;
+}
+
+/* CONTROLES (quitar / cantidad) */
+.card_body-amount {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* BOTÓN QUITAR */
+.card_body-amount button:first-child {
+    background: none;
+    border: 1px solid #ff4d4f;
+    color: #ff4d4f;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+/* BOTONES - + */
+.card_body-amount button:not(:first-child) {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* CANTIDAD */
+.card_body-amount span {
+    width: 32px;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* PRECIO */
+.card_price {
+    flex: 0 0 140px;
+    text-align: right;
+}
+
+.card_price article {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+}

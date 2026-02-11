@@ -1,0 +1,185 @@
+.card {
+    border: 1px solid #e0e0e0; /* Un borde más suave queda mejor en pequeño */
+    padding: 8px; /* Menos padding */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 140px; /* Bajamos de 180px a 140px */
+    object-fit: contain; /* Cambiamos a 'contain' para que la PC no se vea cortada */
+    background-color: #f8f9fa; /* Fondo gris claro por si la imagen es chica */
+}
+
+.card-title {
+    font-size: 0.95rem; /* Título más chico */
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Si el nombre es muy largo, pone "..." */
+}
+
+.card-subtitle {
+    font-size: 0.85rem;
+}
+
+.card-text {
+    height: 60px; /* Reducimos la caja de descripción */
+    font-size: 0.8rem; /* Fuente más chica */
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.btn-primary {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+}
+
+/* Contenedor Principal con mejor margen y fondo */
+.product-detail-wrapper {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 40px;
+    background: #fff;
+    border-radius: 15px;
+    /* Alineación de la grilla */
+    display: block; 
+}
+/* Alineación del botón volver */
+.back-link {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Grilla principal alineada al centro verticalmente */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 50/50 para que sea más equilibrado */
+    gap: 60px;
+    align-items: start; /* Alinea los contenidos al tope de la grilla */
+}
+
+/* Sección de Imagen */
+.image-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fcfcfc;
+    border: 1px solid #f0f0f0;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.image-section img {
+    width: 100%;
+    max-height: 450px;
+    object-fit: contain;
+}
+
+/* Sección de Información */
+.info-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra la info respecto a la altura de la imagen */
+    height: 100%;
+}
+
+.brand-tag {
+    color: #00ff00;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.info-section h1 {
+    font-size: 2.2rem;
+    color: #333;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+    line-height: 1.2;
+}
+
+/* Caja de Precio Estilo ShowCardPC */
+.price-container {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 25px;
+    border-radius: 12px;
+    margin: 25px 0;
+    text-align: left; /* Alineación limpia a la izquierda */
+}
+
+/* Color de fuente idéntico al azul de tus cards */
+.main-price {
+    font-size: 2.8rem;
+    color: #6c757d; /* El mismo azul de ShowCardPC */
+    font-weight: 700;
+    margin: 5px 0;
+    letter-spacing: -1px;
+}
+
+/* Sección de Descripción */
+.description-section {
+    margin-top: 10px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.description-section h5 {
+    font-weight: 700;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+.description-section p {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Botón de compra potente */
+.buy-button {
+    width: 100%;
+    background: #007bff; /* Azul primario idéntico al de ShowCardPC */
+    color: #ffffff;
+    padding: 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+    box-shadow: 0 4px 15px rgba(255, 65, 54, 0.3);
+}
+
+.buy-button:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 65, 54, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
