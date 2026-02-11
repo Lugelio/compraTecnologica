@@ -25,17 +25,7 @@ function Footer() {
           </div>
 
           {/* Center - CTA */}
-          <div className="col-md-4 mb-3 mb-md-0">
-            <p className="d-flex justify-content-center align-items-center mb-0">
-              <span className="me-3">Registrate gratis!</span>
-              <button
-                type="button"
-                className="btn btn-outline-light btn-sm"
-              >
-                Registrarse!
-              </button>
-            </p>
-          </div>
+        
 
           {/* Right - Footer links */}
           <div className="col-md-4 d-flex justify-content-center justify-content-md-end gap-3">
