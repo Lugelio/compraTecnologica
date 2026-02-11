@@ -27,12 +27,12 @@ function Footer() {
           {/* Center - CTA */}
           <div className="col-md-4 mb-3 mb-md-0">
             <p className="d-flex justify-content-center align-items-center mb-0">
-              <span className="me-3">Register for free</span>
+              <span className="me-3">Registrate gratis!</span>
               <button
                 type="button"
                 className="btn btn-outline-light btn-sm"
               >
-                Sign up!
+                Registrarse!
               </button>
             </p>
           </div>
@@ -52,7 +52,7 @@ function Footer() {
         className="text-center py-3"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.25)" }}
       >
-        © 2026 YourStore — All rights reserved
+        © 2026 Compra tecnologica — Todos los derechos reservados
       </div>
     </footer>
     )
