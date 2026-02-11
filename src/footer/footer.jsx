@@ -24,8 +24,6 @@ function Footer() {
             </a>
           </div>
 
-          {/* Center - CTA */}
-        
 
           {/* Right - Footer links */}
           <div className="col-md-4 d-flex justify-content-center justify-content-md-end gap-3">

@@ -40,12 +40,12 @@ function Header() {
                             Carrito
                         </NavLink>
                     </li>
-
+{/* 
                     <li className="nav-item">
                         <NavLink to="/admin" className="nav-link custom-link fs-2">
                             Admin
                         </NavLink>
-                    </li>
+                    </li> */}
 
                     <li className="nav-item">
                         {loading ? (

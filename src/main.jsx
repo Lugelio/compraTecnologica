@@ -24,7 +24,6 @@ const router = createBrowserRouter([
       { index: true, element: <App /> }, // ruta "/"
       { path: "profile", element: <Profile /> },
       { path: "car", element: <Car /> },
-      { path: "admin", element: <Admin /> },
       { path: "login", element: <Login /> },
       { path: "producto/:id", element: <ProductDetail /> },
       { path: "login", element: <Login /> },
