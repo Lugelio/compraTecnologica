@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 import logo from "./Logo.png";
 import useUserSession from "../database/adminBase/userSession";
-import LogoutUser from "../login/logout";
 import "./header.css";
 
 function Header() {

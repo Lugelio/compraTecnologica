@@ -18,14 +18,14 @@ function Car() {
     const [userProductCart, setUserProductsCart] = useState([]);
     const [showProducts, setShowProducts] = useState([]);
 
-    // --- ESTADOS PARA EL TOAST ---
+    
     const [showToast, setShowToast] = useState(false);
     const [msg, setMsg] = useState("");
 
     const dispararToast = (mensaje) => {
         setMsg(mensaje);
         setShowToast(true);
-        // El toast de Bootstrap necesita que lo ocultes manualmente o con un timer
+       
         setTimeout(() => setShowToast(false), 3000);
     };
 
