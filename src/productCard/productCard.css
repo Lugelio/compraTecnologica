@@ -1,185 +1,130 @@
 .card {
-    border: 1px solid #e0e0e0; /* Un borde más suave queda mejor en pequeño */
-    padding: 8px; /* Menos padding */
+    border: 1px solid #e0e0e0;
+    padding: 10px;
     height: 100%;
     display: flex;
     flex-direction: column;
+    background: #fff;
+    border-radius: 8px;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.card-img-container {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 .card-img-top {
     width: 100%;
-    height: 140px; /* Bajamos de 180px a 140px */
-    object-fit: contain; /* Cambiamos a 'contain' para que la PC no se vea cortada */
-    background-color: #f8f9fa; /* Fondo gris claro por si la imagen es chica */
+    height: 140px;
+    object-fit: contain;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .card-title {
-    font-size: 0.95rem; /* Título más chico */
+    font-size: 1rem;
+    font-weight: 700;
     margin-bottom: 5px;
+    color: #333;
+    /* Truncar texto si es muy largo */
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Si el nombre es muy largo, pone "..." */
+    text-overflow: ellipsis;
 }
 
 .card-subtitle {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 10px;
+    font-weight: 600;
 }
 
 .card-text {
-    height: 60px; /* Reducimos la caja de descripción */
-    font-size: 0.8rem; /* Fuente más chica */
-    line-height: 1.2;
-    margin-bottom: 10px;
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    height: 50px; /* Altura fija para alinear botones */
+    overflow: hidden;
 }
 
-.btn-primary {
+.buy-button-card {
+    margin-top: auto;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
     font-size: 0.8rem;
-    padding: 5px 10px;
 }
 
-/* Contenedor Principal con mejor margen y fondo */
+/* --- VISTA DE DETALLE (EL WRAPPER) --- */
+
 .product-detail-wrapper {
     max-width: 1100px;
-    margin: 60px auto;
-    padding: 40px;
+    margin: 20px auto;
+    padding: 15px;
     background: #fff;
-    border-radius: 15px;
-    /* Alineación de la grilla */
-    display: block; 
-}
-/* Alineación del botón volver */
-.back-link {
-    background: none;
-    border: none;
-    color: #007bff;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 25px;
-    padding: 0;
-    transition: color 0.2s;
 }
 
-.back-link:hover {
-    color: #0056b3;
-    text-decoration: underline;
-}
-
-/* Grilla principal alineada al centro verticalmente */
 .main-content {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 50/50 para que sea más equilibrado */
-    gap: 60px;
-    align-items: start; /* Alinea los contenidos al tope de la grilla */
-}
-
-/* Sección de Imagen */
-.image-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #fcfcfc;
-    border: 1px solid #f0f0f0;
-    border-radius: 15px;
-    padding: 20px;
+    grid-template-columns: 1fr; /* 1 columna en móvil */
+    gap: 20px;
 }
 
 .image-section img {
     width: 100%;
-    max-height: 450px;
+    max-height: 300px;
     object-fit: contain;
 }
 
-/* Sección de Información */
-.info-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Centra la info respecto a la altura de la imagen */
-    height: 100%;
-}
-
-.brand-tag {
-    color: #00ff00;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 1.2px;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-}
-
 .info-section h1 {
-    font-size: 2.2rem;
-    color: #333;
-    font-weight: 700;
-    margin: 0 0 5px 0;
-    line-height: 1.2;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
 }
 
-/* Caja de Precio Estilo ShowCardPC */
-.price-container {
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    padding: 25px;
-    border-radius: 12px;
-    margin: 25px 0;
-    text-align: left; /* Alineación limpia a la izquierda */
-}
-
-/* Color de fuente idéntico al azul de tus cards */
 .main-price {
-    font-size: 2.8rem;
-    color: #6c757d; /* El mismo azul de ShowCardPC */
+    font-size: 2.2rem;
     font-weight: 700;
-    margin: 5px 0;
-    letter-spacing: -1px;
+    color: #444;
 }
 
-/* Sección de Descripción */
-.description-section {
-    margin-top: 10px;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-}
+/* --- RESPONSIVE (DESKTOP) --- */
 
-.description-section h5 {
-    font-weight: 700;
-    color: #555;
-    margin-bottom: 12px;
-}
+@media (min-width: 768px) {
+    .product-detail-wrapper {
+        margin: 60px auto;
+        padding: 40px;
+        border: 1px solid #eee;
+        border-radius: 15px;
+    }
 
-.description-section p {
-    font-size: 0.95rem;
-    color: #666;
-    line-height: 1.6;
-}
-
-/* Botón de compra potente */
-.buy-button {
-    width: 100%;
-    background: #007bff; /* Azul primario idéntico al de ShowCardPC */
-    color: #ffffff;
-    padding: 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.2rem;
-    font-weight: 800;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    margin-top: 15px;
-    box-shadow: 0 4px 15px rgba(255, 65, 54, 0.3);
-}
-
-.buy-button:hover {
-    background: #0056b3;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 65, 54, 0.4);
-}
-
-/* Responsive */
-@media (max-width: 992px) {
     .main-content {
-        grid-template-columns: 1fr;
-        gap: 30px;
+        grid-template-columns: 1fr 1fr; /* 2 columnas en PC */
+        gap: 60px;
+        align-items: center;
+    }
+
+    .image-section img {
+        max-height: 450px;
+    }
+
+    .info-section h1 {
+        font-size: 2.5rem;
     }
 }
