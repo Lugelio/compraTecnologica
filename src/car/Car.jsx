@@ -17,7 +17,6 @@ function Car() {
     const [userCart, setUserCart] = useState(null);
     const [userProductCart, setUserProductsCart] = useState([]);
     const [showProducts, setShowProducts] = useState([]);
-
     
     const [showToast, setShowToast] = useState(false);
     const [msg, setMsg] = useState("");
@@ -25,7 +24,6 @@ function Car() {
     const dispararToast = (mensaje) => {
         setMsg(mensaje);
         setShowToast(true);
-       
         setTimeout(() => setShowToast(false), 3000);
     };
 
@@ -38,6 +36,7 @@ function Car() {
     const selectCarItems = useSelectCarItems();
     const selectCarItemsProduct = useSelectCarItemsProduct();
 
+    // 1. Obtener Sesión
     useEffect(() => {
         const getSession = async () => {
             const { data } = await supabase.auth.getSession();
@@ -48,6 +47,7 @@ function Car() {
         getSession();
     }, []);
 
+    // 2. Obtener ID del Carrito del usuario
     useEffect(() => {
         if (!userId) return;
         const fetchCart = async () => {
@@ -57,16 +57,18 @@ function Car() {
         fetchCart();
     }, [userId]);
 
+    // 3. Obtener Ítems del carrito (Carga inicial)
     useEffect(() => {
         if (!userCart) return;
         const fetchItems = async () => {
             const items = await selectCarItems(userCart);
-            const activeItems = (items ?? []).filter(item => item.state === "on");
-            setUserProductsCart(activeItems);
+            // Ya no filtramos por "state" porque ahora borramos físicamente
+            setUserProductsCart(items ?? []);
         };
         fetchItems();
-    }, [userCart]);
+    }, [userCart]); // Corregido: antes estaba vacío y ahora depende de userCart
 
+    // 4. Cruzar datos con la tabla Productos para mostrar info completa
     useEffect(() => {
         if (userProductCart.length === 0) {
             setShowProducts([]);
@@ -86,12 +88,16 @@ function Car() {
         fetchProducts();
     }, [userProductCart]);
 
+    // MANEJO DE BORRADO (Físico)
     const handleErase = async (id) => {
         const result = await erraseItem(id);
         if (result) {
+            // Limpiamos de ambos estados para asegurar que desaparezca de la vista
             setShowProducts(prev => prev.filter(item => item.id !== id));
             setUserProductsCart(prev => prev.filter(item => item.id !== id));
-            dispararToast("Producto eliminado");
+            dispararToast("Producto eliminado del carrito");
+        } else {
+            dispararToast("No se pudo eliminar el producto");
         }
     };
 
@@ -100,11 +106,13 @@ function Car() {
             dispararToast("Sin más stock disponible");
             return;
         }
+        // Cambio optimista
         setShowProducts(prev => prev.map(item => 
             item.id === id ? { ...item, Amount: item.Amount + 1 } : item
         ));
         const result = await sum(id, currentAmount, stock);
         if (!result) {
+            // Rollback si falla
             setShowProducts(prev => prev.map(item => 
                 item.id === id ? { ...item, Amount: item.Amount - 1 } : item
             ));
@@ -148,7 +156,6 @@ function Car() {
 
     return (
         <div className="container mt-4 position-relative">
-            
             {/* --- SISTEMA DE TOASTS --- */}
             <div className="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style={{ zIndex: 1060 }}>
                 <div className={`toast align-items-center text-white bg-dark border-0 ${showToast ? 'show' : 'hide'}`} role="alert">
@@ -162,7 +169,10 @@ function Car() {
             <div className="row">
                 <div className={showProducts.length > 0 ? "col-lg-8" : "col-lg-12"}>
                     {showProducts.length === 0 ? (
-                        <div className="alert alert-info shadow-sm">Tu carrito está vacío.</div>
+                        <div className="alert alert-info shadow-sm text-center py-5">
+                            <h4>Tu carrito está vacío</h4>
+                            <p className="mb-0">¡Explora nuestros productos y llena tu carrito!</p>
+                        </div>
                     ) : (
                         showProducts.map(item => (
                             <CarElement

@@ -13,7 +13,7 @@ function useSumAmount() {
                 .update({ Amount: currentAmount + 1 })
                 .eq('id', id)
                 .select(`*, Products (*)`)
-                .single();
+                
 
             if (error) throw error;
             return data;

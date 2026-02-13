@@ -9,7 +9,6 @@ function useSelectCarItems() {
         .from("cart_items")
         .select("*")
         .eq("cart_id", cart_id)
-        .eq("state","on");
 
       if (error) {
         console.error("Error buscando el carrito:", error);

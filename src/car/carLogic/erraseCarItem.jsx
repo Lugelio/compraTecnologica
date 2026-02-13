@@ -1,6 +1,6 @@
+
 import { supabase } from "../../database/conexionBase";
 import { useState } from "react";
-
 function useErraseCartItem() {
     const [loading, setLoading] = useState(false);
 
@@ -9,22 +9,21 @@ function useErraseCartItem() {
         try {
             const { data, error } = await supabase
                 .from('cart_items')
-                .update({ state: "off", Amount: 0 })
+                .delete() // <--- CAMBIO CLAVE: Borrado físico
                 .eq('id', id)
-                .select();
+                .select(); // Retorna lo que borró para confirmar
 
             if (error) throw error;
             
-            return data;
+            // Retorna true si borró al menos una fila
+            return data && data.length > 0;
         } catch (error) {
-            console.error("Error al desactivar el item del carrito:", error.message);
-            return null;
+            console.error("Error al eliminar el item del carrito:", error.message);
+            return false;
         } finally {
             setLoading(false);
         }
     };
 
     return { erraseItem, loading };
-}
-
-export default useErraseCartItem;
+}export default useErraseCartItem
