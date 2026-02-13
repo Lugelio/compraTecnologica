@@ -54,7 +54,7 @@ function Profile() {
         <div className="d-flex justify-content-between align-items-center mb-5">
             <div>
                 <h1 className="fw-bold mb-0">Hola, {showProfile?.email?.split('@')[0] || "Usuario"}</h1>
-                <p className="text-muted">Gestiona tus pedidos y cuenta</p>
+                <p className="text-muted">Checa tus gastos</p>
             </div>
             <button onClick={handleLogout} className="btn btn-logout">
                 Cerrar Sesión

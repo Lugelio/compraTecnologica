@@ -65,7 +65,6 @@
     color: #666;
     line-height: 1.5;
     margin-bottom: 20px;
-    /* Limitamos descripción a 3 líneas */
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
