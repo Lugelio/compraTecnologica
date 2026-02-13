@@ -89,7 +89,7 @@
     background: #0056b3;
 }
 
-/* --- VISTA DE DETALLE (PRODUCT DETAIL) --- */
+
 .product-detail-wrapper {
     max-width: 1100px;
     margin: 20px auto;
@@ -99,7 +99,7 @@
 
 .main-content {
     display: grid;
-    grid-template-columns: 1fr; /* 1 columna en móvil */
+    grid-template-columns: 1fr; 
     gap: 30px;
 }
 
@@ -109,10 +109,9 @@
     object-fit: contain;
 }
 
-/* --- AJUSTES PARA PANTALLAS GRANDES (TABLET/PC) --- */
 @media (min-width: 768px) {
     .card-img-top {
-        height: 160px; /* Reducimos un poco la imagen en PC para que entren más filas */
+        height: 160px; 
     }
 
     .product-detail-wrapper {
@@ -123,7 +122,7 @@
     }
 
     .main-content {
-        grid-template-columns: 1fr 1fr; /* 2 columnas en PC */
+        grid-template-columns: 1fr 1fr; 
         gap: 60px;
     }
 
