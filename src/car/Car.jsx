@@ -18,8 +18,25 @@ function Car() {
     const [userProductCart, setUserProductsCart] = useState([]);
     const [showProducts, setShowProducts] = useState([]);
     
+    // Estado local para controlar el flujo de procesamiento de datos
+    const [loadingData, setLoadingData] = useState(true);
+
     const [showToast, setShowToast] = useState(false);
     const [msg, setMsg] = useState("");
+
+    const { sum, loading: isSuming } = useSumAmount();
+    const { rest, loading: isResting } = useRestAmount();
+    const { erraseItem, loading: isDeleting } = useErraseCartItem();
+    const { purchase, loading: isBuying } = usePurchase();
+    
+    // Desestructuramos el loading del hook como propusiste
+    const { selectCarItems, loading: isLoadingItems } = useSelectCarItems();
+    
+    const selectCarId = useSelectCarId();
+    const selectCarItemsProduct = useSelectCarItemsProduct();
+
+    // Variable auxiliar para decidir si mostrar el spinner
+    const isActuallyLoading = loadingData || isLoadingItems;
 
     const dispararToast = (mensaje) => {
         setMsg(mensaje);
@@ -27,92 +44,93 @@ function Car() {
         setTimeout(() => setShowToast(false), 3000);
     };
 
-    const { sum, loading: isSuming } = useSumAmount();
-    const { rest, loading: isResting } = useRestAmount();
-    const { erraseItem, loading: isDeleting } = useErraseCartItem();
-    const { purchase, loading: isBuying } = usePurchase();
-
-    const selectCarId = useSelectCarId();
-    const selectCarItems = useSelectCarItems();
-    const selectCarItemsProduct = useSelectCarItemsProduct();
-
-    // 1. Obtener Sesión
+    // 1. Obtener el usuario autenticado
     useEffect(() => {
         const getSession = async () => {
             const { data } = await supabase.auth.getSession();
             if (data?.session?.user?.id) {
                 setUserId(data.session.user.id);
+            } else {
+                setLoadingData(false);
             }
         };
         getSession();
     }, []);
 
-    // 2. Obtener ID del Carrito del usuario
+    // 2. Obtener el ID del carrito vinculado al usuario
     useEffect(() => {
         if (!userId) return;
         const fetchCart = async () => {
-            const cart = await selectCarId(userId);
-            setUserCart(cart);
+            try {
+                const cartId = await selectCarId(userId);
+                setUserCart(cartId);
+            } catch (error) {
+                setLoadingData(false);
+            }
         };
         fetchCart();
     }, [userId]);
 
-    // 3. Obtener Ítems del carrito (Carga inicial)
+    // 3. Obtener los ítems del carrito
     useEffect(() => {
         if (!userCart) return;
         const fetchItems = async () => {
-            const items = await selectCarItems(userCart);
-            // Ya no filtramos por "state" porque ahora borramos físicamente
-            setUserProductsCart(items ?? []);
+            try {
+                const items = await selectCarItems(userCart);
+                setUserProductsCart(items ?? []);
+                // Si no hay ítems, cortamos el loading aquí
+                if (!items || items.length === 0) {
+                    setLoadingData(false);
+                }
+            } catch (error) {
+                setLoadingData(false);
+            }
         };
         fetchItems();
-    }, [userCart]); // Corregido: antes estaba vacío y ahora depende de userCart
+    }, [userCart]);
 
-    // 4. Cruzar datos con la tabla Productos para mostrar info completa
+    // 4. Cruzar datos con la tabla de Productos
     useEffect(() => {
-        if (userProductCart.length === 0) {
-            setShowProducts([]);
-            return;
-        }
-        const fetchProducts = async () => {
-            const products = await Promise.all(
-                userProductCart.map(item => selectCarItemsProduct(item.product_id))
-            );
-            const flatProducts = products.flat();
-            const merged = userProductCart.map(cartItem => {
-                const product = flatProducts.find(p => p.id === cartItem.product_id);
-                return { ...cartItem, product };
-            });
-            setShowProducts(merged);
+        if (userProductCart.length === 0) return;
+
+        const fetchProductsData = async () => {
+            try {
+                const detailedProducts = await Promise.all(
+                    userProductCart.map(async (item) => {
+                        const productInfo = await selectCarItemsProduct(item.product_id);
+                        const info = Array.isArray(productInfo) ? productInfo[0] : productInfo;
+                        return { ...item, product: info };
+                    })
+                );
+                setShowProducts(detailedProducts);
+            } catch (error) {
+                console.error("Error al cruzar datos:", error);
+            } finally {
+                setLoadingData(false);
+            }
         };
-        fetchProducts();
+        fetchProductsData();
     }, [userProductCart]);
 
-    // MANEJO DE BORRADO (Físico)
     const handleErase = async (id) => {
-        const result = await erraseItem(id);
-        if (result) {
-            // Limpiamos de ambos estados para asegurar que desaparezca de la vista
+        const fueBorrado = await erraseItem(id);
+        if (fueBorrado) {
             setShowProducts(prev => prev.filter(item => item.id !== id));
             setUserProductsCart(prev => prev.filter(item => item.id !== id));
-            dispararToast("Producto eliminado del carrito");
-        } else {
-            dispararToast("No se pudo eliminar el producto");
+            dispararToast("Producto eliminado");
         }
     };
 
     const handleSum = async (id, currentAmount, stock) => {
         if (currentAmount >= stock) {
-            dispararToast("Sin más stock disponible");
+            dispararToast("Límite de stock alcanzado");
             return;
         }
-        // Cambio optimista
         setShowProducts(prev => prev.map(item => 
             item.id === id ? { ...item, Amount: item.Amount + 1 } : item
         ));
-        const result = await sum(id, currentAmount, stock);
-        if (!result) {
-            // Rollback si falla
+        const success = await sum(id, currentAmount, stock);
+        if (!success) {
             setShowProducts(prev => prev.map(item => 
                 item.id === id ? { ...item, Amount: item.Amount - 1 } : item
             ));
@@ -124,8 +142,8 @@ function Car() {
             setShowProducts(prev => prev.map(item => 
                 item.id === id ? { ...item, Amount: item.Amount - 1 } : item
             ));
-            const result = await rest(id, currentAmount);
-            if (!result) {
+            const success = await rest(id, currentAmount);
+            if (!success) {
                 setShowProducts(prev => prev.map(item => 
                     item.id === id ? { ...item, Amount: item.Amount + 1 } : item
                 ));
@@ -137,26 +155,17 @@ function Car() {
 
     const handleBuy = async () => {
         if (showProducts.length === 0) return;
-
-        const totalCost = showProducts.reduce(
-            (acc, item) => acc + (item.product?.price ?? 0) * item.Amount,
-            0
-        );
-
-        const result = await purchase(showProducts, userId, totalCost);
-
-        if (result) {
-            dispararToast("¡Compra exitosa! Gracias por elegirnos.");
+        const total = showProducts.reduce((acc, item) => acc + (item.product?.price ?? 0) * item.Amount, 0);
+        const success = await purchase(showProducts, userId, total);
+        if (success) {
+            dispararToast("¡Compra realizada con éxito!");
             setShowProducts([]);
             setUserProductsCart([]);
-        } else {
-            dispararToast("Error al procesar la compra. Reintenta.");
         }
     };
 
     return (
         <div className="container mt-4 position-relative">
-            {/* --- SISTEMA DE TOASTS --- */}
             <div className="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style={{ zIndex: 1060 }}>
                 <div className={`toast align-items-center text-white bg-dark border-0 ${showToast ? 'show' : 'hide'}`} role="alert">
                     <div className="d-flex">
@@ -168,18 +177,23 @@ function Car() {
 
             <div className="row">
                 <div className={showProducts.length > 0 ? "col-lg-8" : "col-lg-12"}>
-                    {showProducts.length === 0 ? (
-                        <div className="alert alert-info shadow-sm text-center py-5">
+                    {isActuallyLoading ? (
+                        <div className="text-center py-5">
+                            <div className="spinner-border text-primary" role="status"></div>
+                            <p className="mt-2 text-muted">Sincronizando carrito...</p>
+                        </div>
+                    ) : showProducts.length === 0 ? (
+                        <div className="alert alert-light shadow-sm text-center py-5 border">
                             <h4>Tu carrito está vacío</h4>
-                            <p className="mb-0">¡Explora nuestros productos y llena tu carrito!</p>
+                            <p className="text-muted">¿Aún no sabes qué comprar? ¡Tenemos muchas ofertas!</p>
                         </div>
                     ) : (
                         showProducts.map(item => (
                             <CarElement
                                 key={item.id}
                                 img={item.product?.img}
-                                description={item.product?.prod_name || "Producto"}
-                                price={item.product?.price}
+                                description={item.product?.prod_name || "Cargando..."}
+                                price={item.product?.price * item.Amount}
                                 amount={item.Amount}
                                 clickErase={() => handleErase(item.id)} 
                                 clickSum={() => handleSum(item.id, item.Amount, item.product?.stock)}
@@ -190,30 +204,27 @@ function Car() {
                     )}
                 </div>
 
-                {showProducts.length > 0 && (
+                {!isActuallyLoading && showProducts.length > 0 && (
                     <div className="col-lg-4">
                         <aside className="cart-summary shadow-sm p-4 border rounded bg-white">
-                            <h5 className="mb-3">Resumen del pedido</h5>
+                            <h5 className="mb-3 fw-bold">Resumen</h5>
                             <div className="d-flex justify-content-between mb-2">
-                                <span>Ítems totales:</span>
+                                <span>Productos:</span>
                                 <span>{showProducts.reduce((acc, item) => acc + item.Amount, 0)}</span>
                             </div>
                             <hr />
-                            <div className="d-flex justify-content-between mb-4 fw-bold text-dark fs-5">
+                            <div className="d-flex justify-content-between mb-4 fw-bold fs-5">
                                 <span>Total:</span>
                                 <span>
-                                    ${showProducts.reduce(
-                                        (acc, item) => acc + (item.product?.price ?? 0) * item.Amount,
-                                        0
-                                    ).toLocaleString('es-AR')}
+                                    ${showProducts.reduce((acc, item) => acc + (item.product?.price ?? 0) * item.Amount, 0).toLocaleString('es-AR')}
                                 </span>
                             </div>
                             <button 
-                                className="btn btn-primary btn-lg w-100" 
+                                className="btn btn-primary btn-lg w-100 shadow-sm" 
                                 onClick={handleBuy}
                                 disabled={isSuming || isResting || isDeleting || isBuying}
                             >
-                                {isBuying ? "Procesando..." : "Finalizar compra"}
+                                {isBuying ? "Procesando..." : "Finalizar Compra"}
                             </button>
                         </aside>
                     </div>
