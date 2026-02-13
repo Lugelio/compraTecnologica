@@ -1,61 +1,74 @@
+/* --- TARJETA DE PRODUCTO (LISTA) --- */
 .card {
     border: 1px solid #e0e0e0;
-    padding: 10px;
+    padding: 15px;
     height: 100%;
     display: flex;
     flex-direction: column;
     background: #fff;
-    border-radius: 8px;
-    transition: transform 0.2s;
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
 .card-img-container {
     background-color: #f8f9fa;
-    border-radius: 4px;
-    margin-bottom: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .card-img-top {
     width: 100%;
-    height: 140px;
+    height: 200px; /* Altura ideal para que luzca en móvil */
     object-fit: contain;
+    padding: 10px;
 }
 
 .card-body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    padding: 5px 0 0 0;
 }
 
 .card-title {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     color: #333;
-    /* Truncar texto si es muy largo */
-    white-space: nowrap;
+    /* Permitimos 2 líneas de título antes de cortar */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
+    line-height: 1.2;
 }
 
 .card-subtitle {
-    font-size: 0.9rem;
-    color: #6c757d;
-    margin-bottom: 10px;
-    font-weight: 600;
+    font-size: 1.2rem;
+    color: #007bff; /* Azul profesional para el precio */
+    margin-bottom: 12px;
+    font-weight: 800;
 }
 
 .card-text {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: #666;
-    line-height: 1.4;
-    margin-bottom: 15px;
-    height: 50px; /* Altura fija para alinear botones */
+    line-height: 1.5;
+    margin-bottom: 20px;
+    /* Limitamos descripción a 3 líneas */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
@@ -64,16 +77,20 @@
     background: #007bff;
     color: white;
     border: none;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 12px;
+    border-radius: 6px;
     font-weight: 700;
     cursor: pointer;
     text-transform: uppercase;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    transition: background 0.2s;
 }
 
-/* --- VISTA DE DETALLE (EL WRAPPER) --- */
+.buy-button-card:hover {
+    background: #0056b3;
+}
 
+/* --- VISTA DE DETALLE (PRODUCT DETAIL) --- */
 .product-detail-wrapper {
     max-width: 1100px;
     margin: 20px auto;
@@ -84,29 +101,21 @@
 .main-content {
     display: grid;
     grid-template-columns: 1fr; /* 1 columna en móvil */
-    gap: 20px;
+    gap: 30px;
 }
 
 .image-section img {
     width: 100%;
-    max-height: 300px;
+    max-height: 350px;
     object-fit: contain;
 }
 
-.info-section h1 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-}
-
-.main-price {
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: #444;
-}
-
-/* --- RESPONSIVE (DESKTOP) --- */
-
+/* --- AJUSTES PARA PANTALLAS GRANDES (TABLET/PC) --- */
 @media (min-width: 768px) {
+    .card-img-top {
+        height: 160px; /* Reducimos un poco la imagen en PC para que entren más filas */
+    }
+
     .product-detail-wrapper {
         margin: 60px auto;
         padding: 40px;
@@ -117,14 +126,9 @@
     .main-content {
         grid-template-columns: 1fr 1fr; /* 2 columnas en PC */
         gap: 60px;
-        align-items: center;
     }
 
     .image-section img {
         max-height: 450px;
-    }
-
-    .info-section h1 {
-        font-size: 2.5rem;
     }
 }

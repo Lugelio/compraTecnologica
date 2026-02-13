@@ -10,7 +10,7 @@ import "./productCard.css";
 
 function ShowCardPC() {
     const navigate = useNavigate();
-    const { userId, loading: authLoading } = useUserSession(); 
+    const { userId, loading: authLoading } = useUserSession();
     const { ejecutarInsercion, loading: insertando } = useCreate();
     const products = useProducts(1);
     const selectCarUserId = useSelectCarId();
@@ -77,7 +77,7 @@ function ShowCardPC() {
 
     return (
         <div className="container mt-3 position-relative">
-            
+
             {/* --- TOAST BLANCO Y NEGRO (ENCIMA DE DESTACADOS) --- */}
             <div className="toast-container position-absolute top-0 start-50 translate-middle-x p-3" style={{ zIndex: 1060 }}>
                 <div className={`toast align-items-center text-dark bg-white border shadow ${showToast ? 'show' : 'hide'}`} role="alert">
@@ -85,9 +85,9 @@ function ShowCardPC() {
                         <div className="toast-body fw-bold">
                             {msg}
                         </div>
-                        <button 
-                            type="button" 
-                            className="btn-close me-2 m-auto" 
+                        <button
+                            type="button"
+                            className="btn-close me-2 m-auto"
                             onClick={() => setShowToast(false)}
                         ></button>
                     </div>
@@ -95,7 +95,7 @@ function ShowCardPC() {
             </div>
 
             <h1 className="text-center mt-5 mb-5">Productos destacados</h1>
-            
+
             {insertando && (
                 <div className="spinner-overlay" style={{
                     position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
@@ -110,7 +110,8 @@ function ShowCardPC() {
             <div className="row g-3">
                 {products.map((product) => (
                     <div
-                        className="col-6 col-md-4 col-lg-3"
+                        // CAMBIO AQUÍ: Agregamos col-12 para que en móvil ocupe todo el ancho
+                        className="col-12 col-sm-6 col-md-4 col-lg-3"
                         key={product.id}
                         onClick={() => irAlDetalle(product.id)}
                         style={{ cursor: "pointer" }}
