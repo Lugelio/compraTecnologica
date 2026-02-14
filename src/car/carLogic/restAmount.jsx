@@ -6,7 +6,7 @@ function useRestAmount() {
     const [loading, setLoading] = useState(false);
 
     const rest = async (id, currentAmount) => {
-        if (currentAmount <= 1) return null; 
+        
         setLoading(true);
         try {
             const { data, error } = await supabase

@@ -5,7 +5,7 @@ function useSumAmount() {
     const [loading, setLoading] = useState(false);
 
     const sum = async (id, currentAmount, stock) => {
-        if (currentAmount >= stock) return null;
+        
         setLoading(true);
         try {
             const { error } = await supabase
