@@ -11,7 +11,7 @@ function useRestAmount() {
         try {
             const { data, error } = await supabase
                 .from('cart_items')
-                .update({ Amount: currentAmount - 1 })
+                .update( Amount= currentAmount - 1 )
                 .eq('id', id)
                 .select(`*, Products (*)`)
           

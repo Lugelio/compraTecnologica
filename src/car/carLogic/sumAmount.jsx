@@ -10,7 +10,7 @@ function useSumAmount() {
         try {
             const { error } = await supabase
                 .from('cart_items')
-                .update({ Amount: currentAmount + 1 })
+                .update( Amount= currentAmount + 1 )
                 .eq('id', id);
 
             if (error) throw error;
