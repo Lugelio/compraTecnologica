@@ -1,4 +1,4 @@
-function CarElement({img, description, price, amount, clickErase, clickSum, clickRest, isPending}) {
+function CarElement({id,img, description, price, amount, clickErase, clickSum, clickRest, isPending}) {
     return(
         <article className="car-card_container">
             <section className="card-img_container">
