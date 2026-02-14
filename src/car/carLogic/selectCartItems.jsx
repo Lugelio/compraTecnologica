@@ -2,7 +2,7 @@ import { useState } from "react";
 import { supabase } from "../../database/conexionBase";
 
 function useSelectCarItems() {
-  const [loading, setLoading] = useState(false); // <--- Agregamos el estado
+  const [loading, setLoading] = useState(false);
 
   const selectCarItems = async (cart_id) => {
     if (!cart_id) return null;
@@ -20,11 +20,11 @@ function useSelectCarItems() {
       }
       return data;
     } finally {
-      setLoading(false); // Finaliza carga pase lo que pase
+      setLoading(false); 
     }
   };
 
-  return { selectCarItems, loading }; // <--- Retornamos como objeto
+  return { selectCarItems, loading }; 
 }
 
 export default useSelectCarItems;

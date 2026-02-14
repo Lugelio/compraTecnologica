@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom"; // Asumiendo que usas react-router-dom
 import { supabase } from "../database/conexionBase";
 
 import CarElement from "./CarElement";
@@ -29,7 +30,6 @@ function Car() {
     const { erraseItem, loading: isDeleting } = useErraseCartItem();
     const { purchase, loading: isBuying } = usePurchase();
     
-    // Desestructuramos el loading del hook como propusiste
     const { selectCarItems, loading: isLoadingItems } = useSelectCarItems();
     
     const selectCarId = useSelectCarId();
@@ -51,6 +51,7 @@ function Car() {
             if (data?.session?.user?.id) {
                 setUserId(data.session.user.id);
             } else {
+                // Si no hay sesión, cortamos el loading para mostrar el aviso de login
                 setLoadingData(false);
             }
         };
@@ -78,7 +79,6 @@ function Car() {
             try {
                 const items = await selectCarItems(userCart);
                 setUserProductsCart(items ?? []);
-                // Si no hay ítems, cortamos el loading aquí
                 if (!items || items.length === 0) {
                     setLoadingData(false);
                 }
@@ -166,6 +166,7 @@ function Car() {
 
     return (
         <div className="container mt-4 position-relative">
+            {/* TOAST NOTIFICACIONES */}
             <div className="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style={{ zIndex: 1060 }}>
                 <div className={`toast align-items-center text-white bg-dark border-0 ${showToast ? 'show' : 'hide'}`} role="alert">
                     <div className="d-flex">
@@ -176,18 +177,31 @@ function Car() {
             </div>
 
             <div className="row">
-                <div className={showProducts.length > 0 ? "col-lg-8" : "col-lg-12"}>
+                <div className={(showProducts.length > 0 && userId) ? "col-lg-8" : "col-lg-12"}>
                     {isActuallyLoading ? (
                         <div className="text-center py-5">
                             <div className="spinner-border text-primary" role="status"></div>
                             <p className="mt-2 text-muted">Sincronizando carrito...</p>
                         </div>
+                    ) : !userId ? (
+                        /* ESTADO: NO LOGUEADO */
+                        <div className="alert alert-light shadow-sm text-center py-5 border">
+                            <h4 className="fw-bold">No has iniciado sesión</h4>
+                            <p className="text-muted">Ingresa a tu cuenta para ver tus productos guardados.</p>
+                            <div className="d-flex justify-content-center gap-3 mt-4">
+                                <Link to="/login" className="btn btn-primary px-4 shadow-sm">Iniciar Sesión</Link>
+                                <Link to="/register" className="btn btn-outline-primary px-4">Registrarse</Link>
+                            </div>
+                        </div>
                     ) : showProducts.length === 0 ? (
+                        /* ESTADO: CARRITO VACÍO */
                         <div className="alert alert-light shadow-sm text-center py-5 border">
                             <h4>Tu carrito está vacío</h4>
                             <p className="text-muted">¿Aún no sabes qué comprar? ¡Tenemos muchas ofertas!</p>
+                            <Link to="/" className="btn btn-primary mt-3">Ver productos</Link>
                         </div>
                     ) : (
+                        /* LISTADO DE PRODUCTOS */
                         showProducts.map(item => (
                             <CarElement
                                 key={item.id}
@@ -204,7 +218,8 @@ function Car() {
                     )}
                 </div>
 
-                {!isActuallyLoading && showProducts.length > 0 && (
+                {/* RESUMEN DE COMPRA: SOLO SI HAY USUARIO Y PRODUCTOS */}
+                {!isActuallyLoading && userId && showProducts.length > 0 && (
                     <div className="col-lg-4">
                         <aside className="cart-summary shadow-sm p-4 border rounded bg-white">
                             <h5 className="mb-3 fw-bold">Resumen</h5>

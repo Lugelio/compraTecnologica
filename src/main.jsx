@@ -26,7 +26,6 @@ const router = createBrowserRouter([
       { path: "car", element: <Car /> },
       { path: "login", element: <Login /> },
       { path: "producto/:id", element: <ProductDetail /> },
-      { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
       { path: "logout", element: <LogoutUser /> },
     ],
