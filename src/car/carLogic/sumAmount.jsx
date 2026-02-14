@@ -8,18 +8,17 @@ function useSumAmount() {
         if (currentAmount >= stock) return null;
         setLoading(true);
         try {
-            const { data, error } = await supabase
+            const { error } = await supabase
                 .from('cart_items')
                 .update({ Amount: currentAmount + 1 })
-                .eq('id', id)
-                .select(`*, Products (*)`)
-                
+                .eq('id', id);
 
             if (error) throw error;
-            return data;
+
+            return true; // Devolvemos true para confirmar que se grabó
         } catch (error) {
-            console.error("Error al sumar:", error.message);
-            return null;
+            console.error("Error al sumar en DB:", error.message);
+            return false;
         } finally {
             setLoading(false);
         }
