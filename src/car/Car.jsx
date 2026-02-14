@@ -18,7 +18,7 @@ function Car() {
     const [userCart, setUserCart] = useState(null);
     const [userProductCart, setUserProductsCart] = useState([]);
     const [showProducts, setShowProducts] = useState([]);
-
+    
     // Estado local para controlar el flujo de procesamiento de datos
     const [loadingData, setLoadingData] = useState(true);
 
@@ -29,9 +29,9 @@ function Car() {
     const { rest, loading: isResting } = useRestAmount();
     const { erraseItem, loading: isDeleting } = useErraseCartItem();
     const { purchase, loading: isBuying } = usePurchase();
-
+    
     const { selectCarItems, loading: isLoadingItems } = useSelectCarItems();
-
+    
     const selectCarId = useSelectCarId();
     const selectCarItemsProduct = useSelectCarItemsProduct();
 
@@ -126,48 +126,25 @@ function Car() {
             dispararToast("Límite de stock alcanzado");
             return;
         }
-
-        // 1. Actualizamos la UI rápido para que se sienta fluido
-        const optimisicUpdate = (prev) => prev.map(item =>
+        setShowProducts(prev => prev.map(item => 
             item.id === id ? { ...item, Amount: item.Amount + 1 } : item
-        );
-        setShowProducts(optimisicUpdate);
-
-        // 2. Ejecutamos en la base de datos
-        const data = await sum(id, currentAmount, stock);
-
-        if (data) {
-            // 3. ¡CLAVE! Actualizamos el estado de origen para que el cambio persista
-            // al cambiar de pestaña o re-renderizar
-            setUserProductsCart(prev => prev.map(item =>
-                item.id === id ? { ...item, Amount: currentAmount + 1 } : item
-            ));
-        } else {
-            // Si falló en la base, volvemos atrás el cambio visual
-            setShowProducts(prev => prev.map(item =>
+        ));
+        const success = await sum(id, currentAmount, stock);
+        if (!success) {
+            setShowProducts(prev => prev.map(item => 
                 item.id === id ? { ...item, Amount: item.Amount - 1 } : item
             ));
-            dispararToast("Error al sincronizar con el servidor");
         }
     };
 
     const handleRest = async (id, currentAmount) => {
         if (currentAmount > 1) {
-            // 1. Actualización visual rápida
-            setShowProducts(prev => prev.map(item =>
+            setShowProducts(prev => prev.map(item => 
                 item.id === id ? { ...item, Amount: item.Amount - 1 } : item
             ));
-
-            const data = await rest(id, currentAmount);
-
-            if (data) {
-                // 2. Actualizamos el estado de origen
-                setUserProductsCart(prev => prev.map(item =>
-                    item.id === id ? { ...item, Amount: currentAmount - 1 } : item
-                ));
-            } else {
-                // Revertir si falla
-                setShowProducts(prev => prev.map(item =>
+            const success = await rest(id, currentAmount);
+            if (!success) {
+                setShowProducts(prev => prev.map(item => 
                     item.id === id ? { ...item, Amount: item.Amount + 1 } : item
                 ));
             }
@@ -232,7 +209,7 @@ function Car() {
                                 description={item.product?.prod_name || "Cargando..."}
                                 price={item.product?.price * item.Amount}
                                 amount={item.Amount}
-                                clickErase={() => handleErase(item.id)}
+                                clickErase={() => handleErase(item.id)} 
                                 clickSum={() => handleSum(item.id, item.Amount, item.product?.stock)}
                                 clickRest={() => handleRest(item.id, item.Amount)}
                                 isPending={isSuming || isResting || isDeleting || isBuying}
@@ -257,8 +234,8 @@ function Car() {
                                     ${showProducts.reduce((acc, item) => acc + (item.product?.price ?? 0) * item.Amount, 0).toLocaleString('es-AR')}
                                 </span>
                             </div>
-                            <button
-                                className="btn btn-primary btn-lg w-100 shadow-sm"
+                            <button 
+                                className="btn btn-primary btn-lg w-100 shadow-sm" 
                                 onClick={handleBuy}
                                 disabled={isSuming || isResting || isDeleting || isBuying}
                             >
