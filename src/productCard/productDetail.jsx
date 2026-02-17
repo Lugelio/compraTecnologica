@@ -10,7 +10,7 @@ function ProductDetail() {
     const { id } = useParams(); 
     const navigate = useNavigate();
     
-    // --- LÓGICA DE DATOS Y SESIÓN ---
+  
     const { userId, loading: authLoading } = useUserSession(); 
     const { ejecutarInsercion, loading: insertando } = useCreate();
     const products = useProducts(1); 
@@ -27,7 +27,7 @@ function ProductDetail() {
         setShowToast(true);
     };
 
-    // --- OBTENER EL CARRITO AL CARGAR ---
+
     useEffect(() => {
         const obtenerCarrito = async () => {
             if (userId) {
@@ -44,7 +44,7 @@ function ProductDetail() {
         obtenerCarrito();
     }, [userId, selectCarUserId]);
 
-    // --- LÓGICA DE AGREGAR AL CARRITO ---
+
     const handleClick = async (product) => {
         if (!userId) {
             dispararToast("Necesitas iniciar sesión para comprar.");
@@ -86,7 +86,7 @@ function ProductDetail() {
     return (
         <div className="product-detail-wrapper position-relative">
             
-            {/* --- TOAST DE NOTIFICACIÓN --- */}
+
             <div className="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style={{ zIndex: 1060 }}>
                 <div className={`toast align-items-center text-dark bg-white border shadow ${showToast ? 'show' : 'hide'}`} role="alert">
                     <div className="d-flex">
@@ -96,7 +96,6 @@ function ProductDetail() {
                 </div>
             </div>
 
-            {/* --- SPINNER DE CARGA --- */}
             {insertando && (
                 <div className="spinner-overlay" style={{
                     position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
@@ -136,7 +135,7 @@ function ProductDetail() {
                             <p style={{lineHeight: '1.5', color: '#444'}}>{product.description}</p>
                         </div>
 
-                        {/* Botón con la lógica de handleClick */}
+                
                         <button className="buy-button" onClick={() => handleClick(product)}>
                             {insertando ? "AGREGANDO..." : "AGREGAR AL CARRITO"}
                         </button>

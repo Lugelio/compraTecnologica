@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import OfertasCard from "./ofertasCard";
 import useGetProductosOferta from "./getProductosOferta";
 
-// Hooks de Lógica
 import useCreate from "../../database/adminBase/CRUD/create";
 import useSelectCarId from "../../car/carLogic/selectUserCar";
 import useUserSession from "../../database/adminBase/userSession";
@@ -56,16 +55,16 @@ function Ofertas() {
             return;
         }
 
-        // Lógica de Upsert
+
         const carItems = await selectCarItems(carId);
         const itemExistente = carItems?.find(item => item.product_id === producto.id);
 
         if (itemExistente) {
-            // Si ya está, sumamos (el precio ya quedó fijado en la primera inserción)
+         
             await sum(itemExistente.id, itemExistente.Amount, producto.stock);
             dispararToast(`Añadiste otro ${producto.prod_name} a tu carrito`);
         } else {
-            // Si no está, insertamos con el precio de OFERTA
+     
             await ejecutarInsercion(
                 {
                     cart_id: carId,
@@ -86,7 +85,7 @@ function Ofertas() {
 
     return (
         <div className="ofertas_container position-relative">
-            {/* Agregamos el Toast aquí también para consistencia visual */}
+
             <div className="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style={{ zIndex: 1060 }}>
                 <div className={`toast align-items-center text-white bg-dark border-0 ${showToast ? 'show' : 'hide'}`} role="alert">
                     <div className="d-flex">

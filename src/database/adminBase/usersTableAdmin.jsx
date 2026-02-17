@@ -46,7 +46,7 @@ function UsersTableAdmin() {
         }
     };
 
-    // 🔁 ALTA / BAJA (MISMO PATRÓN QUE PRODUCTS)
+
     const handleDelete = async (id, estadoActual) => {
         const nuevoEstado = estadoActual === 1 ? 0 : 1;
 
@@ -105,7 +105,6 @@ function UsersTableAdmin() {
                         </tr>
                     ))}
 
-                    {/* FILA NUEVA */}
                     <tr className="base_info new-row">
                         <td>—</td>
                         <td>—</td>

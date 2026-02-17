@@ -1,5 +1,4 @@
 import ProductTableAdmin from "./productTableAdmin"
-import UsersTableAdmin from "./usersTableAdmin"
 function Admin(){
     return(
         <div>

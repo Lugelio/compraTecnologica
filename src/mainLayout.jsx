@@ -23,11 +23,10 @@ function MainLayout() {
   }, [location]);
 
   return (
-    /* 1. Usamos la clase .layout que tiene el display: flex y min-height: 100vh */
+ 
     <div className="layout"> 
       <Header />
       
-      {/* Contenedor de Toast */}
       <div className="position-relative">
         <div className="toast-container position-absolute top-0 start-50 translate-middle-x p-3">
           <div className={`toast align-items-center text-white bg-info border-0 ${showToast ? 'show' : 'hide'}`} role="alert">
@@ -41,7 +40,7 @@ function MainLayout() {
         </div>
       </div>
 
-      {/* 2. Envolvemos el Outlet en un div con la clase .content (la que tiene el flex: 1) */}
+
       <div className="content">
         <Outlet /> 
       </div>

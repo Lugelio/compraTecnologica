@@ -19,7 +19,7 @@ function useHistory() {
                console.error("DETALLE DEL ERROR 400:", error.message, error.details, error.hint);
                  throw error; 
             } 
-            return { data, error: null }; // Devolvemos la data directamente
+            return { data, error: null }; 
         } catch (error) {
             return { data: null, error: error.message };
         } finally {

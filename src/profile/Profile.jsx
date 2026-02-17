@@ -20,13 +20,12 @@ function Profile() {
         const fetchUserData = async () => {
             if (!userId) return;
 
-            // Disparamos ambas consultas en paralelo para mejorar performance
             const [resProfile, resHistory] = await Promise.all([
                 profile(userId),
                 getHistory(userId)
             ]);
 
-            // Seteamos los estados si hay data
+     
             if (resProfile.data) setShowProfile(resProfile.data);
             if (resHistory.data) setCompras(resHistory.data);
         };
@@ -50,7 +49,7 @@ function Profile() {
 
    return (
     <div className="container mt-5 profile-container">
-        {/* CABECERA */}
+       
         <div className="d-flex justify-content-between align-items-center mb-5">
             <div>
                 <h1 className="fw-bold mb-0">Hola, {showProfile?.email?.split('@')[0] || "Usuario"}</h1>
@@ -61,7 +60,7 @@ function Profile() {
             </button>
         </div>
 
-        {/* TARJETA DE PERFIL */}
+
         <div className="profile-info-card">
             <h5>Información de la Cuenta</h5>
             {profileLoading ? <p>Cargando datos...</p> : (

@@ -59,7 +59,6 @@ function FilterCards() {
             return;
         }
 
-        // Lógica de Upsert
         const carItems = await selectCarItems(carId);
         const itemExistente = carItems?.find(item => item.product_id === product.id);
 
@@ -115,7 +114,7 @@ function FilterCards() {
                         key={category}
                         category={category}
                         click={elegirCategoria}
-                        active={catSel === category} // Podrías usar esto para resaltar el botón activo
+                        active={catSel === category} 
                     />
                 ))}
             </div>

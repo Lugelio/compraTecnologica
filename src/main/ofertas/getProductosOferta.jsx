@@ -27,7 +27,7 @@ function useGetProductosOferta() {
         productsInOffer();
     }, []);
 
-    // Devolvemos los productos y el estado de carga
+
     return { offerProducts, loading, refetch: productsInOffer };
 }
 

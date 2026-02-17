@@ -40,7 +40,7 @@ function Car() {
         setTimeout(() => setShowToast(false), 3000);
     };
 
-    // 1. Obtener usuario
+
     useEffect(() => {
         const getSession = async () => {
             const { data } = await supabase.auth.getSession();
@@ -53,7 +53,7 @@ function Car() {
         getSession();
     }, []);
 
-    // 2. Obtener ID del carrito (cabecera)
+   
     useEffect(() => {
         if (!userId) return;
         const fetchCart = async () => {
@@ -67,7 +67,7 @@ function Car() {
         fetchCart();
     }, [userId]);
 
-    // 3. Obtener ítems del carrito (filas de cart_items)
+    
     useEffect(() => {
         if (!userCart) return;
         const fetchItems = async () => {
@@ -82,9 +82,9 @@ function Car() {
         fetchItems();
     }, [userCart]);
 
-    // 4. Cruzar datos con la tabla de Productos
+   
     useEffect(() => {
-        // Si el carrito está vacío, limpiamos la vista y cortamos el loading
+
         if (userProductCart.length === 0) {
             setShowProducts([]);
             if (userId) setLoadingData(false); 
@@ -115,19 +115,19 @@ function Car() {
             dispararToast("Límite de stock alcanzado");
             return;
         }
-        // Actualización optimista (UI)
+   
         setShowProducts(prev => prev.map(item => 
             item.id === id ? { ...item, Amount: item.Amount + 1 } : item
         ));
 
         const success = await sum(id, currentAmount, stock);
         if (success) {
-            // Sincronizamos estado de origen
+     
             setUserProductsCart(prev => prev.map(item => 
                 item.id === id ? { ...item, Amount: currentAmount + 1 } : item
             ));
         } else {
-            // Revertimos si falla en DB
+      
             setShowProducts(prev => prev.map(item => 
                 item.id === id ? { ...item, Amount: item.Amount - 1 } : item
             ));
@@ -169,12 +169,12 @@ function Car() {
         if (showProducts.length === 0) return;
         const total = showProducts.reduce((acc, item) => acc + (item.product?.price ?? 0) * item.Amount, 0);
         
-        // 1. Ejecutar proceso de compra
+
         const success = await purchase(showProducts, userId, total);
         
         if (success) {
             try {
-                // 2. Limpiar físicamente el carrito en la DB tras la compra
+                
                 const { error } = await supabase
                     .from('cart_items')
                     .delete()
@@ -182,7 +182,7 @@ function Car() {
 
                 if (error) throw error;
 
-                // 3. Limpiar estados locales
+                
                 dispararToast("¡Compra realizada con éxito!");
                 setShowProducts([]);
                 setUserProductsCart([]);
@@ -195,7 +195,7 @@ function Car() {
 
     return (
         <div className="container mt-4 position-relative">
-            {/* TOAST NOTIFICACIONES */}
+            
             <div className="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style={{ zIndex: 1060 }}>
                 <div className={`toast align-items-center text-white bg-dark border-0 ${showToast ? 'show' : 'hide'}`} role="alert">
                     <div className="d-flex">

@@ -3,7 +3,7 @@ import "./ofertas.css"
 function OfertasCard({ price, oferta_price, name, description,click }) {
     return (
         <div className="oferta_card">
-            {/* Placeholder de imagen */}
+
             <div className="oferta_img"></div>
 
             <div className="oferta_info">

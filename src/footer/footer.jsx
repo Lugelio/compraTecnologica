@@ -7,7 +7,7 @@ function Footer() {
       className="text-white"
       style={{ backgroundColor: "#2C2C2C" }}
     >
-      {/* Main container */}
+   
       <div className="container py-4">
         <div className="row align-items-center text-center text-md-start">
           
@@ -25,7 +25,7 @@ function Footer() {
           </div>
 
 
-          {/* Right - Footer links */}
+         
           <div className="col-md-4 d-flex justify-content-center justify-content-md-end gap-3">
             <a href="#" className="footer-link">Help</a>
             <a href="#" className="footer-link">Terms</a>
@@ -35,7 +35,6 @@ function Footer() {
         </div>
       </div>
 
-      {/* Copyright */}
       <div
         className="text-center py-3"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.25)" }}

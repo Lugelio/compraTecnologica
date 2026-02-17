@@ -6,7 +6,7 @@ import "./header.css";
 function Header() {
     const { userId, loading } = useUserSession();
 
-    // Manejador del clic para cerrar sesión
+
 
 
     return (
@@ -40,12 +40,7 @@ function Header() {
                             Carrito
                         </NavLink>
                     </li>
-{/* 
-                    <li className="nav-item">
-                        <NavLink to="/admin" className="nav-link custom-link fs-2">
-                            Admin
-                        </NavLink>
-                    </li> */}
+
 
                     <li className="nav-item">
                         {loading ? (

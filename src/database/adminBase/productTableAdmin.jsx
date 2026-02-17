@@ -7,13 +7,13 @@ import { supabase } from "../conexionBase";
 
 function ProductTableAdmin() {
     const products = useProducts();
-    const [file, setFile] = useState(null); // Estado para el archivo de imagen
+    const [file, setFile] = useState(null); 
 
     const [nuevoProducto, setNuevoProducto] = useState({
         prod_name: "",
         price: "",
         stock: "",
-        img: "", // Aquí guardaremos la URL final
+        img: "", 
         description: "",
         Type: "",
         Marca: ""
@@ -31,9 +31,9 @@ function ProductTableAdmin() {
 
     const handleInsert = async () => {
         try {
-            let publicImageUrl = nuevoProducto.img; // Por si querés usar URL manual
+            let publicImageUrl = nuevoProducto.img; 
 
-            // 1. Si hay un archivo seleccionado, lo subimos al Bucket
+         
             if (file) {
                 const fileExt = file.name.split('.').pop();
                 const fileName = `${Date.now()}.${fileExt}`; // Nombre único con timestamp
@@ -45,7 +45,7 @@ function ProductTableAdmin() {
 
                 if (uploadError) throw uploadError;
 
-                // 2. Obtenemos la URL pública del archivo subido
+ 
                 const { data } = supabase.storage
                     .from('produtc-images')
                     .getPublicUrl(filePath);
@@ -53,12 +53,12 @@ function ProductTableAdmin() {
                 publicImageUrl = data.publicUrl;
             }
 
-            // 3. Ejecutar la inserción con la URL de la imagen (o la manual si no hubo file)
+            
             const productoFinal = { ...nuevoProducto, img: publicImageUrl };
             
             await ejecutarInsercion(productoFinal, "Products");
 
-            // 4. Limpiar estados y recargar
+
             setNuevoProducto({
                 prod_name: "", price: "", stock: "", img: "",
                 description: "", Type: "", Marca: ""
@@ -123,7 +123,7 @@ function ProductTableAdmin() {
                         </tr>
                     ))}
 
-                    {/* FILA PARA AGREGAR NUEVO */}
+           
                     <tr className="base_info new-row">
                         <td>—</td>
                         <td>—</td>
@@ -131,7 +131,7 @@ function ProductTableAdmin() {
                         <td><input type="number" name="price" value={nuevoProducto.price} onChange={handleChange} placeholder="Precio" /></td>
                         <td><input type="number" name="stock" value={nuevoProducto.stock} onChange={handleChange} placeholder="Stock" /></td>
                         
-                        {/* INPUT DE ARCHIVO */}
+                     
                         <td>
                             <input 
                                 type="file" 

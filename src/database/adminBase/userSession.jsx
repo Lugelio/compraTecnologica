@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../conexionBase'; // Asegúrate de que la ruta a tu cliente de supabase sea correcta
+import { supabase } from '../conexionBase'; 
 
 const useUserSession = () => {
     const [userId, setUserId] = useState(null);
@@ -21,7 +21,7 @@ const useUserSession = () => {
 
         getSession();
 
-        // Opcional: Escuchar cambios en la autenticación (login/logout)
+
         const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
             setUserId(session?.user?.id || null);
         });
