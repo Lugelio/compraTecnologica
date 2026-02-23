@@ -12,6 +12,7 @@ import Register from './login/register.jsx';
 import LogoutUser from './login/logout.jsx';
 import Admin from './database/adminBase/admin.jsx';
 import ProductDetail from './productCard/productDetail.jsx';
+import NotFound from './notFound/notFound.jsx';
 
 
 import './index.css'
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { path: "producto/:id", element: <ProductDetail /> },
       { path: "register", element: <Register /> },
       { path: "logout", element: <LogoutUser /> },
+      { path: "*", element: <NotFound /> },
     ],
   },
 ])
